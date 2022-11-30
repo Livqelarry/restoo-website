@@ -91,4 +91,17 @@
 .img-illus {
   width: 240px;
   height: 240px;
+}
+
+.btn-transparent {
+  padding: 0 !important;
+  background: none;
+  border: none !important;
+}
+.btn-transparent:active {
+  border: none !important;
+}
+.btn-transparent img {
+  width: 24px;
+  height: 24px;
 }/*# sourceMappingURL=style.css.map */

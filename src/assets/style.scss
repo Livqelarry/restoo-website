@@ -100,3 +100,16 @@ $forth-dark-blue: #0affff;
   width: 240px;
   height: 240px;
 }
+
+.btn-transparent {
+  padding: 0 !important;
+  background: none;
+  border: none !important;
+  &:active {
+    border: none !important;
+  }
+  img {
+    width: 24px;
+    height: 24px;
+  }
+}
