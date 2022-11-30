@@ -56,6 +56,13 @@ export default {
       }
     },
   },
+  mounted() {
+    if (this.item.selected == 0) {
+      this.showButton = true;
+    } else {
+      this.showButton = false;
+    }
+  },
 };
 </script>
 

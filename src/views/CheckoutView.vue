@@ -7,9 +7,9 @@
     </div>
     <!-- menus selected -->
     <div class="menus container">
-      <CardMenus />
-      <CardMenus />
-      <CardMenus />
+      <div v-for="item in products">
+        <CardMenus :item="item" @tambah="tambah" @kurang="kurang" />
+      </div>
     </div>
     <!-- cta -->
     <div class="cta py-3 mb-3">
@@ -18,7 +18,9 @@
           <h4 class="fw-bold mb-0">Ada lagi pesanannya?</h4>
           <p class="mb-0">Pesan menu yang lain.</p>
         </div>
-        <button class="btn btn-primary">Pesan</button>
+        <router-link to="/menus">
+          <button class="btn btn-primary">Pesan</button>
+        </router-link>
       </div>
     </div>
     <!-- ringkasan pembayaran -->
@@ -47,9 +49,11 @@
       </div>
       <div class="py-3">
         <div class="container">
-          <button class="btn btn-primary w-100">
-            Pesan dan Bayar Sekarang
-          </button>
+          <router-link to="/success-payment">
+            <button class="btn btn-primary w-100">
+              Pesan dan Bayar Sekarang
+            </button>
+          </router-link>
         </div>
       </div>
     </div>
@@ -61,9 +65,46 @@ import NavbarComp from "@/components/NavbarComp.vue";
 import CardMenus from "@/components/CardMenus.vue";
 export default {
   name: "CheckoutView",
+
   components: {
     NavbarComp,
     CardMenus,
+  },
+  data() {
+    return {
+      products: [
+        {
+          id: 1,
+          title: "Air Mineral",
+          desc: "500 ml",
+          price: 5400,
+          selected: 5,
+        },
+        {
+          id: 2,
+          title: "Salad Madu Cilacap",
+          desc: "Makanan khas cilacap",
+          price: 15000,
+          selected: 6,
+        },
+      ],
+    };
+  },
+  methods: {
+    tambah(id) {
+      this.products.forEach((item) => {
+        if (item.id == id) {
+          item.selected++;
+        }
+      });
+    },
+    kurang(id) {
+      this.products.forEach((item) => {
+        if (item.id == id) {
+          item.selected = item.selected - 1;
+        }
+      });
+    },
   },
 };
 </script>
