@@ -6,7 +6,7 @@
     </div>
   </main>
 
-  <div class="wrapper-float-cart pb-3">
+  <div v-if="showCart" class="wrapper-float-cart pb-3">
     <div class="container">
       <router-link to="/checkout">
         <div
@@ -37,6 +37,7 @@ export default {
   name: "MenusView",
   data() {
     return {
+      showCart: false,
       products: [
         {
           id: 1,
@@ -65,6 +66,7 @@ export default {
         if (item.id == id) {
           item.selected++;
         }
+        this.cart();
       });
     },
     kurang(id) {
@@ -72,7 +74,19 @@ export default {
         if (item.id == id) {
           item.selected = item.selected - 1;
         }
+        this.cart();
       });
+    },
+    cart() {
+      let total_barang = 0;
+      this.products.forEach((item) => {
+        total_barang += item.selected;
+      });
+      if (total_barang == 0) {
+        this.showCart = false;
+      } else {
+        this.showCart = true;
+      }
     },
   },
 };
