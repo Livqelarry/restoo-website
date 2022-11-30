@@ -8,8 +8,10 @@
       src="/img/failed-icon.svg"
       alt="illustration failed"
     />
-    <h2 class="fw-bold">Pesanan Anda Sudah Masuk ke Resto</h2>
-    <p class="mb-4">Pesanan akan segera diantarkan.</p>
+    <h2 class="fw-bold">Pembayaran Gagal, Mohon Ulangi Pesanan Anda</h2>
+    <p class="mb-4">
+      Pesanan anda tidak masuk ke Resto karena pembayaran gagal.
+    </p>
     <router-link to="/">
       <button class="btn btn-primary">Kembali ke Halaman Menu</button>
     </router-link>
