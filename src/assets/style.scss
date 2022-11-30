@@ -1,0 +1,102 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap");
+
+* {
+  font-family: "Montserrat", sans-serif;
+  box-sizing: border-box;
+}
+
+$main-blue: #5800ff;
+$second-blue: #0096ff;
+$third-blue: #00d7ff;
+$forth-blue: #72ffff;
+
+$main-dark-blue: #350099;
+$second-dark-blue: #005a99;
+$third-dark-blue: #008199;
+$forth-dark-blue: #0affff;
+
+.navbar {
+  height: 80px;
+  background: $main-blue;
+}
+
+.pb-100 {
+  padding-bottom: 100px !important;
+}
+
+.btn {
+  transition: scale 0.1s ease-in-out;
+  // primary
+  &-primary {
+    background-color: $main-blue !important;
+    border: none;
+    &:hover {
+      background-color: $main-dark-blue !important;
+    }
+    &:active {
+      background-color: $main-dark-blue !important;
+    }
+  }
+  &-outline-primary {
+    border: 1px solid $main-blue !important;
+    color: $main-blue !important;
+    &:hover {
+      background-color: $main-blue !important;
+      color: white !important;
+    }
+  }
+  &:active {
+    transform: scale(0.95);
+  }
+  &-menu {
+    font-size: 12px !important;
+    padding: 4px 16px !important;
+  }
+}
+
+.fs-7 {
+  font-size: 14px;
+}
+.fs-8 {
+  font-size: 12px;
+}
+.bg-light-gray {
+  background-color: lightgray;
+  border-top: 1px solid gray;
+}
+
+.card-menu {
+  background-color: lightgray;
+  .img-product {
+    height: 84px;
+    width: 84px;
+    object-fit: cover;
+    object-position: center;
+  }
+}
+
+.cta {
+  border: 1px solid gray;
+  border-right: none;
+  border-left: none;
+}
+
+.recap {
+  background-color: lightgray;
+  .total-payment {
+    border-top: 1px solid gray;
+  }
+}
+
+.float-pay {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background-color: white;
+  width: 100%;
+}
+
+.img-illus {
+  width: 240px;
+  height: 240px;
+}
