@@ -12,7 +12,7 @@
       <button
         v-if="showButton"
         @click="tambah"
-        class="btn btn-menu btn-outline-primary"
+        class="btn btn-menu btn-outline-primary btn-tambah"
       >
         tambah
       </button>

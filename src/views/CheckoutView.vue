@@ -2,8 +2,8 @@
   <NavbarComp />
   <main class="pt-3 pb-100">
     <!-- title -->
-    <div class="title container mb-3">
-      <p class="mb-0 fs-2 fw-bold">Checkout</p>
+    <div class="title container mb-2">
+      <p class="mb-0 fs-4 fw-bold">Checkout</p>
     </div>
     <!-- menus selected -->
     <div class="menus container">
@@ -29,7 +29,7 @@
     </div>
     <!-- ringkasan pembayaran -->
     <div class="container">
-      <div class="recap p-3 rounded">
+      <div class="recap bg-light2 p-3 rounded">
         <h6 class="fw-bold">Ringkasan Pembayaran</h6>
         <div v-for="item in dataCart.produk" v-if="dataCart">
           <div class="d-flex justify-content-between py-2">

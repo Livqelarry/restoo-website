@@ -1,6 +1,10 @@
 <template>
   <NavbarCompVue />
-  <main class="container py-5">
+  <main class="container pt-3 pb-100">
+    <!-- title -->
+    <div class="title mb-2">
+      <p class="mb-0 fs-4 fw-bold">Menus</p>
+    </div>
     <div v-for="item in products" v-if="products">
       <CardMenus :item="item" @tambah="tambah" @kurang="kurang" />
     </div>
