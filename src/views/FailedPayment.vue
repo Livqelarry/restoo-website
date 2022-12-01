@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import NavbarComp from "@/components/NavbarComp.vue";
+import NavbarComp from "@/components/NavbarCompLogged.vue";
 export default {
   name: "FailedPayment",
   components: {

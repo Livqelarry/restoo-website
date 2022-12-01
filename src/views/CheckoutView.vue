@@ -7,8 +7,12 @@
     </div>
     <!-- menus selected -->
     <div class="menus container">
-      <div v-for="item in products">
-        <CardMenus :item="item" @tambah="tambah" @kurang="kurang" />
+      <div v-for="(item, index) in dataCart.produk" v-if="dataCart">
+        <CardMenusCart
+          :item="item"
+          :indexCart="index"
+          @deleteCart="deleteCart"
+        />
       </div>
     </div>
     <!-- cta -->
@@ -27,13 +31,15 @@
     <div class="container">
       <div class="recap p-3 rounded">
         <h6 class="fw-bold">Ringkasan Pembayaran</h6>
-        <div class="d-flex justify-content-between py-2">
-          <span> Air Mineral x2 </span>
-          <span> 5.400 </span>
+        <div v-for="item in dataCart.produk" v-if="dataCart">
+          <div class="d-flex justify-content-between py-2">
+            <span> {{ item.nama }} x{{ item.qty }} </span>
+            <span> {{ item.harga }} </span>
+          </div>
         </div>
         <div class="total-payment py-3 d-flex justify-content-between">
           <span>Total Pembayaran </span>
-          <span class="fw-bold"> 10.800 </span>
+          <span class="fw-bold" v-if="dataCart">Rp {{ dataCart.total }} </span>
         </div>
       </div>
     </div>
@@ -49,11 +55,9 @@
       </div>
       <div class="py-3">
         <div class="container">
-          <router-link to="/success-payment">
-            <button class="btn btn-primary w-100">
-              Pesan dan Bayar Sekarang
-            </button>
-          </router-link>
+          <button class="btn btn-primary w-100" @click="handleCheckout">
+            Pesan dan Bayar Sekarang
+          </button>
         </div>
       </div>
     </div>
@@ -61,42 +65,42 @@
 </template>
 
 <script>
-import NavbarComp from "@/components/NavbarComp.vue";
-import CardMenus from "@/components/CardMenus.vue";
+import NavbarComp from "@/components/NavbarCompLogged.vue";
+import CardMenusCart from "@/components/CardMenusCart.vue";
+import axios from "axios";
+import script from "@/mixins/script";
 export default {
   name: "CheckoutView",
 
   components: {
     NavbarComp,
-    CardMenus,
+    CardMenusCart,
   },
   data() {
     return {
-      products: [
-        {
-          id: 1,
-          title: "Air Mineral",
-          desc: "500 ml",
-          price: 5400,
-          selected: 5,
-        },
-        {
-          id: 2,
-          title: "Salad Madu Cilacap",
-          desc: "Makanan khas cilacap",
-          price: 15000,
-          selected: 6,
-        },
-      ],
+      dataCart: null,
     };
   },
+  mixins: [script],
   methods: {
-    tambah(id) {
-      this.products.forEach((item) => {
-        if (item.id == id) {
-          item.selected++;
-        }
-      });
+    tambah(id, qty) {
+      console.log(id, qty);
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.getCookie("jwt")}`,
+        },
+        body: JSON.stringify({ id_meja: "1", id_produk: id, qty: qty }),
+      };
+
+      fetch("https://restoo.xetup.id/api/keranjang", options)
+        .then((response) => response.json())
+        .then((response) => {
+          console.log(response);
+          this.getCart();
+        })
+        .catch((err) => console.error(err));
     },
     kurang(id) {
       this.products.forEach((item) => {
@@ -105,6 +109,63 @@ export default {
         }
       });
     },
+    deleteCart(index) {
+      const self = this;
+      const options = {
+        method: "DELETE",
+        url: "https://restoo.xetup.id/api/keranjang/" + index,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.getCookie("jwt")}`,
+        },
+      };
+      axios
+        .request(options)
+        .then(function (response) {
+          console.log(response);
+          self.getCart();
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+    },
+    getCart() {
+      const options = {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${this.getCookie("jwt")}`,
+        },
+      };
+
+      fetch("https://restoo.xetup.id/api/keranjang", options)
+        .then((response) => response.json())
+        .then((response) => {
+          console.log(response);
+          this.dataCart = response.data;
+        })
+        .catch((err) => console.error(err));
+    },
+    handleCheckout() {
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.getCookie("jwt")}`,
+        },
+        body: '{"id_meja":1}',
+      };
+
+      fetch("https://restoo.xetup.id/api/checkout", options)
+        .then((response) => response.json())
+        .then((response) => {
+          console.log(response);
+          this.$router.push("/success-payment");
+        })
+        .catch((err) => console.error(err));
+    },
+  },
+  mounted() {
+    this.getCart();
   },
 };
 </script>

@@ -8,17 +8,16 @@
           Untuk pesan makanan, anda harus login terlebih dahulu.
         </p>
         <div class="d-flex flex-column gap-2 mb-4">
-          <label for="Email">Email</label>
+          <label for="username">Username</label>
           <input
-            type="email"
+            type="text"
             class="form-control"
-            placeholder="Masukkan email anda"
+            placeholder="Masukkan username anda"
+            ref="username"
           />
         </div>
 
-        <router-link to="/menus">
-          <button class="btn btn-primary">Login</button>
-        </router-link>
+        <button class="btn btn-primary" @click="handleLogin()">Login</button>
       </div>
     </main>
   </div>
@@ -26,11 +25,36 @@
 
 <script>
 import NavbarCompVue from "@/components/NavbarComp.vue";
+import script from "@/mixins/script";
 
 export default {
   name: "HomeView",
+  data() {
+    return {};
+  },
   components: {
     NavbarCompVue,
+  },
+  mixins: [script],
+  methods: {
+    // handle login
+    handleLogin() {
+      const input = this.$refs.username.value;
+
+      const options = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: input }),
+      };
+
+      fetch("https://restoo.xetup.id/api/login", options)
+        .then((response) => response.json())
+        .then((response) => {
+          this.setCookie("jwt", response.data.token, 1);
+          this.$router.push("/menus");
+        })
+        .catch((err) => console.error(err));
+    },
   },
 };
 </script>

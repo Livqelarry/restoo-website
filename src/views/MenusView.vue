@@ -1,13 +1,13 @@
 <template>
   <NavbarCompVue />
   <main class="container py-5">
-    <div v-for="item in products">
+    <div v-for="item in products" v-if="products">
       <CardMenus :item="item" @tambah="tambah" @kurang="kurang" />
     </div>
   </main>
 
   <div v-if="showCart" class="wrapper-float-cart pb-3">
-    <div class="container">
+    <div class="container px-4">
       <router-link to="/checkout">
         <div
           class="
@@ -21,9 +21,9 @@
         >
           <div class="d-flex gap-3 align-items-center">
             <img src="/img/icon-check.svg" alt="icon check" />
-            <span> 1 item </span>
+            <span> {{ quantity }} item </span>
           </div>
-          <span> 5.400 </span>
+          <span> {{ data_cart.total }} </span>
         </div>
       </router-link>
     </div>
@@ -31,63 +31,109 @@
 </template>
 
 <script>
-import NavbarCompVue from "@/components/NavbarComp.vue";
+import NavbarCompVue from "@/components/NavbarCompLogged.vue";
 import CardMenus from "@/components/CardMenus.vue";
+
+import script from "@/mixins/script";
 export default {
   name: "MenusView",
   data() {
     return {
       showCart: false,
-      products: [
-        {
-          id: 1,
-          title: "Air Mineral",
-          desc: "500 ml",
-          price: 5400,
-          selected: 0,
-        },
-        {
-          id: 2,
-          title: "Salad Madu Cilacap",
-          desc: "Makanan khas cilacap",
-          price: 15000,
-          selected: 0,
-        },
-      ],
+      products: null,
+      data_cart: null,
+      quantity: 0,
     };
   },
+  mixins: [script],
   components: {
     NavbarCompVue,
     CardMenus,
   },
   methods: {
     tambah(id) {
-      this.products.forEach((item) => {
-        if (item.id == id) {
-          item.selected++;
-        }
-        this.cart();
-      });
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.getCookie("jwt")}`,
+        },
+        body: JSON.stringify({ id_meja: "1", id_produk: id, qty: 1 }),
+      };
+
+      fetch("https://restoo.xetup.id/api/keranjang", options)
+        .then((response) => response.json())
+        .then((response) => {
+          console.log(response);
+          this.getCart();
+        })
+        .catch((err) => console.error(err));
     },
     kurang(id) {
-      this.products.forEach((item) => {
-        if (item.id == id) {
-          item.selected = item.selected - 1;
-        }
-        this.cart();
-      });
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.getCookie("jwt")}`,
+        },
+        body: JSON.stringify({ id_meja: "1", id_produk: id, qty: -1 }),
+      };
+
+      fetch("https://restoo.xetup.id/api/keranjang", options)
+        .then((response) => response.json())
+        .then((response) => {
+          console.log(response);
+          this.getCart();
+        })
+        .catch((err) => console.error(err));
     },
-    cart() {
-      let total_barang = 0;
-      this.products.forEach((item) => {
-        total_barang += item.selected;
-      });
-      if (total_barang == 0) {
-        this.showCart = false;
-      } else {
-        this.showCart = true;
-      }
+    getAllMenus() {
+      const options = {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${this.getCookie("jwt")}`,
+        },
+      };
+
+      fetch("https://restoo.xetup.id/api/produk", options)
+        .then((response) => response.json())
+        .then((response) => {
+          console.log(response);
+          this.products = response.data;
+          this.getCart();
+        })
+        .catch((err) => {
+          this.$router.push("/");
+        });
     },
+    getCart() {
+      const options = {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${this.getCookie("jwt")}`,
+        },
+      };
+
+      fetch("https://restoo.xetup.id/api/keranjang", options)
+        .then((response) => response.json())
+        .then((response) => {
+          console.log(response);
+          this.data_cart = response.data;
+          if (response.data.produk.length > 0) {
+            this.showCart = true;
+            this.quantity = 0;
+            response.data.produk.forEach((item, indexItem) => {
+              this.quantity += parseInt(item.qty);
+            });
+          } else {
+            this.showCart = false;
+          }
+        })
+        .catch((err) => console.error(err));
+    },
+  },
+  mounted() {
+    this.getAllMenus();
   },
 };
 </script>

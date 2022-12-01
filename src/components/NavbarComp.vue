@@ -7,8 +7,20 @@
 </template>
 
 <script>
+import script from "@/mixins/script";
 export default {
   name: "NavbarComp",
+  mixins: [script],
+  methods: {
+    checkLoggin() {
+      if (this.getCookie("jwt") !== "") {
+        this.$router.push("/Menus");
+      }
+    },
+  },
+  mounted() {
+    this.checkLoggin();
+  },
 };
 </script>
 

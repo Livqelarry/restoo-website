@@ -41,6 +41,18 @@
   font-size: 12px !important;
   padding: 4px 16px !important;
 }
+.btn-trash {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 !important;
+}
+.btn-trash img {
+  width: 20px;
+  height: 20px;
+}
 
 .fs-7 {
   font-size: 14px;

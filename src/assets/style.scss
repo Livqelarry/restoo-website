@@ -52,6 +52,18 @@ $forth-dark-blue: #0affff;
     font-size: 12px !important;
     padding: 4px 16px !important;
   }
+  &-trash {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 !important;
+    img {
+      width: 20px;
+      height: 20px;
+    }
+  }
 }
 
 .fs-7 {
