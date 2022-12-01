@@ -86,7 +86,6 @@ export default {
   mixins: [script],
   methods: {
     tambah(id, qty) {
-      console.log(id, qty);
       const options = {
         method: "POST",
         headers: {
@@ -99,7 +98,6 @@ export default {
       fetch("https://restoo.xetup.id/api/keranjang", options)
         .then((response) => response.json())
         .then((response) => {
-          console.log(response);
           this.getCart();
         })
         .catch((err) => console.error(err));
@@ -124,7 +122,6 @@ export default {
       axios
         .request(options)
         .then(function (response) {
-          console.log(response);
           self.getCart();
         })
         .catch(function (error) {
@@ -142,7 +139,6 @@ export default {
       fetch("https://restoo.xetup.id/api/keranjang", options)
         .then((response) => response.json())
         .then((response) => {
-          console.log(response);
           this.dataCart = response.data;
         })
         .catch((err) => console.error(err));
@@ -160,7 +156,6 @@ export default {
       fetch("https://restoo.xetup.id/api/checkout", options)
         .then((response) => response.json())
         .then((response) => {
-          console.log(response);
           this.$router.push("/success-payment");
         })
         .catch((err) => console.error(err));

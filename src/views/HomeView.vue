@@ -26,6 +26,7 @@
 <script>
 import NavbarCompVue from "@/components/NavbarComp.vue";
 import script from "@/mixins/script";
+import Swal from "sweetalert2";
 
 export default {
   name: "HomeView",
@@ -41,6 +42,16 @@ export default {
     handleLogin() {
       const input = this.$refs.username.value;
 
+      if (input.length <= 2) {
+        return Swal.fire({
+          title: "Masukkan Username lebih dari 2 Karakter",
+          // text: "",
+          icon: "warning",
+          confirmButtonColor: "#5800FF",
+          confirmButtonText: "Okey",
+        });
+      }
+
       const options = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -50,7 +61,6 @@ export default {
       fetch("https://restoo.xetup.id/api/login", options)
         .then((response) => response.json())
         .then((response) => {
-          console.log(response);
           if (
             response.msg === "Login gagal, Silahkan daftar terlebih dahulu."
           ) {
