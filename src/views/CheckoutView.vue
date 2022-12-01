@@ -34,12 +34,14 @@
         <div v-for="item in dataCart.produk" v-if="dataCart">
           <div class="d-flex justify-content-between py-2">
             <span> {{ item.nama }} x{{ item.qty }} </span>
-            <span> {{ item.harga }} </span>
+            <span> {{ this.formatNumberGlobal(item.harga) }} </span>
           </div>
         </div>
         <div class="total-payment py-3 d-flex justify-content-between">
           <span>Total Pembayaran </span>
-          <span class="fw-bold" v-if="dataCart">Rp {{ dataCart.total }} </span>
+          <span class="fw-bold" v-if="dataCart"
+            >Rp {{ this.formatNumberGlobal(dataCart.total) }}
+          </span>
         </div>
       </div>
     </div>

@@ -20,5 +20,8 @@ export default {
       let expires = "expires=" + d.toUTCString();
       document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
     },
+    formatNumberGlobal(number) {
+      return new Intl.NumberFormat("id-ID", { maximumSignificantDigits: 3 }).format(number);
+    },
   },
 };

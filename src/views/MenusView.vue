@@ -23,7 +23,7 @@
             <img src="/img/icon-check.svg" alt="icon check" />
             <span> {{ quantity }} item </span>
           </div>
-          <span> {{ data_cart.total }} </span>
+          <span> {{ this.formatNumberGlobal(data_cart.total) }} </span>
         </div>
       </router-link>
     </div>
@@ -64,7 +64,6 @@ export default {
       fetch("https://restoo.xetup.id/api/keranjang", options)
         .then((response) => response.json())
         .then((response) => {
-          console.log(response);
           this.getCart();
         })
         .catch((err) => console.error(err));
@@ -82,7 +81,6 @@ export default {
       fetch("https://restoo.xetup.id/api/keranjang", options)
         .then((response) => response.json())
         .then((response) => {
-          console.log(response);
           this.getCart();
         })
         .catch((err) => console.error(err));
@@ -98,7 +96,6 @@ export default {
       fetch("https://restoo.xetup.id/api/produk", options)
         .then((response) => response.json())
         .then((response) => {
-          console.log(response);
           this.products = response.data;
           this.getCart();
         })
@@ -117,7 +114,6 @@ export default {
       fetch("https://restoo.xetup.id/api/keranjang", options)
         .then((response) => response.json())
         .then((response) => {
-          console.log(response);
           this.data_cart = response.data;
           if (response.data.produk.length > 0) {
             this.showCart = true;

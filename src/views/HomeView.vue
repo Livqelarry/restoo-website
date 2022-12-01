@@ -50,8 +50,30 @@ export default {
       fetch("https://restoo.xetup.id/api/login", options)
         .then((response) => response.json())
         .then((response) => {
+          console.log(response);
+          if (
+            response.msg === "Login gagal, Silahkan daftar terlebih dahulu."
+          ) {
+            this.handleReg(input);
+          }
           this.setCookie("jwt", response.data.token, 1);
           this.$router.push("/menus");
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
+    handleReg(input) {
+      const options = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: input }),
+      };
+
+      fetch("https://restoo.xetup.id/api/register", options)
+        .then((response) => response.json())
+        .then((response) => {
+          this.handleLogin();
         })
         .catch((err) => console.error(err));
     },

@@ -5,7 +5,7 @@
         <h3 class="fw-bold mb-0">{{ item.nama }}</h3>
         <p class="mb-0">Dekripsi makanan</p>
       </div>
-      <p class="mb-0">{{ item.harga }}</p>
+      <p class="mb-0">{{ this.formatNumberGlobal(item.harga) }}</p>
     </div>
     <div class="d-flex flex-column align-items-end w-50">
       <img class="img-product rounded mb-2" src="/img/dummy.jpg" alt="dummy" />
